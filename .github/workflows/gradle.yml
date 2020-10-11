@@ -19,9 +19,11 @@ jobs:
     - name: grant execute permission for client/gradlew
       run: chmod +x client/gradlew
     - name: build client
-      run: ./client/gradlew build
+      working-directory: ./client
+      run: ./gradlew build
     - name: test client
-      run: ./client/gradlew test
+      working-directory: ./client
+      run: ./gradlew test
 
   server:
     runs-on: ubuntu-latest
@@ -35,6 +37,8 @@ jobs:
     - name: grant execute permission for server/gradlew
       run: chmod +x server/gradlew
     - name: build server
-      run: ./server/gradlew build
+      working-directory: ./server
+      run: ./gradlew build
     - name: test client
-      run: ./server/gradlew test
+      working-directory: server
+      run: ./gradlew test
