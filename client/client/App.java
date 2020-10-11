@@ -6,12 +6,12 @@ import java.io.*;
 public class App {
     // default ip and port
     // TODO: set ip:port using cli arguments
-    private String ip = "127.0.0.1";
-    private int port = 9595;
+    private static String ip = "127.0.0.1";
+    private static int port = 9595;
 
-    private Socket socket = null;
-    private DataInputStream input = null;
-    private DataOutputStream output = null;
+    private static Socket socket = null;
+    private static DataInputStream input = null;
+    private static DataOutputStream output = null;
 
     public static void main(String[] args) {
         // try to create a socket object
@@ -25,6 +25,9 @@ public class App {
             System.exit(2);
         } catch(UnknownHostException e) {
             System.err.println("you're trying to connect to an unknown host.");
+            System.exit(2);
+        } catch(IOException e) {
+            System.err.println("io exception occured while conecting to server.");
             System.exit(2);
         }
 
@@ -52,8 +55,13 @@ public class App {
         }
 
         // close and free resources
-        input.close();
-        output.close();
-        socket.close();
+        try {
+            input.close();
+            output.close();
+            socket.close();
+        } catch(IOException e) {
+            System.err.println("io exception occured while closing resources.");
+            System.exit(2);
+        }
     }
 }
