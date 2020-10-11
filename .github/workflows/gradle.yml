@@ -7,8 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build-client:
-
+  client:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,18 +20,10 @@ jobs:
       run: chmod +x client/gradlew
     - name: build client
       run: ./client/gradlew build
-  
-  test-client:
-    runs-on: ubuntu-latest
-
-    needs: build-client
-    steps:
     - name: test client
       run: ./client/gradlew test
 
-
-  build-server:
-
+  server:
     runs-on: ubuntu-latest
 
     steps:
@@ -45,11 +36,5 @@ jobs:
       run: chmod +x server/gradlew
     - name: build server
       run: ./server/gradlew build
-
-  test-server:
-    runs-on: ubuntu-latest
-
-    needs: build-client
-    steps:
     - name: test client
       run: ./client/gradlew test
