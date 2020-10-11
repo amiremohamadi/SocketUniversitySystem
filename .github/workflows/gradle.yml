@@ -22,7 +22,6 @@ jobs:
       working-directory: ./client
       run: ./gradlew build
     - name: test client
-      working-directory: ./client
       run: ./gradlew clean test
 
   server:
@@ -40,5 +39,4 @@ jobs:
       working-directory: ./server
       run: ./gradlew build
     - name: test client
-      working-directory: ./server
       run: ./gradlew clean test
