@@ -37,4 +37,4 @@ jobs:
     - name: build server
       run: ./server/gradlew build
     - name: test client
-      run: ./client/gradlew test
+      run: ./server/gradlew test
