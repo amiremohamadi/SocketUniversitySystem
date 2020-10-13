@@ -2,6 +2,8 @@ package server;
 
 import java.net.*;
 import java.io.*;
+import util.*;
+
 
 public class App {
     // default port
@@ -45,7 +47,9 @@ public class App {
         while (true) {
             try {
                 command = input.readUTF();
-                System.out.println(command);
+                Parser.parse_exec(command);
+            } catch(InvalidCommandException e) {
+                System.err.println(e.getMessage());
             } catch(IOException e) {
                 // clinet wants to quit, no more reading
                 break;
