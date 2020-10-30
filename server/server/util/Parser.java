@@ -1,7 +1,7 @@
 package util;
 
 import util.Command;
-import util.InvalidCommandException;
+import exception.*;
 
 
 // util for tokenize and parsing commands
@@ -11,20 +11,17 @@ public class Parser {
         return command.split("\\s+");
     }
 
-    public static void parse_exec(String command) {
+    public static String parse_exec(String command) {
         String [] tokens = tokenize(command);
 
         // tokens[0] is the actual opcode
         switch(tokens[0]) {
             case "add":
-                Command.add(tokens);
-                break;
+                return Command.add(tokens);
             case "delete":
-                Command.delete(tokens);
-               break;
+                return Command.delete(tokens);
             case "show":
-               Command.show(tokens);
-               break;
+               return Command.show(tokens);
             default:
                throw new InvalidCommandException(
                        "command not found! try 'help' for more informations.");
