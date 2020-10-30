@@ -12,6 +12,7 @@ public class App {
     private static Socket socket = null;
     private static DataInputStream input = null;
     private static DataOutputStream output = null;
+    private static DataInputStream input_from_server = null; // read data from server
 
     public static void main(String[] args) {
         // try to create a socket object
@@ -36,6 +37,10 @@ public class App {
             input = new DataInputStream(System.in);
             // to write/send user commands to socket server
             output = new DataOutputStream(socket.getOutputStream());
+            // to read from server
+            input_from_server = new DataInputStream(
+                    new BufferedInputStream(socket.getInputStream())
+                    );
         } catch(IOException e) {
             System.err.println("IO streams init failed.");
             System.exit(1);
@@ -49,6 +54,9 @@ public class App {
                 command = input.readLine();
                 // command arguments can be also utf (Eg. name in farsi)
                 output.writeUTF(command);
+                // read and print result (data from server)
+                System.out.println(
+                        input_from_server.readUTF());
             } catch(IOException e) {
                 break; // user wanna exit, don't read anymore
             }

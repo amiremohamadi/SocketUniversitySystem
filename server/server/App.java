@@ -13,6 +13,7 @@ public class App {
     private static Socket socket = null;
     private static ServerSocket serversocket = null;
     private static DataInputStream input = null;
+    private static DataOutputStream output = null;
 
     public static void main(String[] args) {
         // try to create a socket object
@@ -38,20 +39,32 @@ public class App {
             input = new DataInputStream(
                     new BufferedInputStream(socket.getInputStream())
                     );
+
+            // to write messages
+            output = new DataOutputStream(socket.getOutputStream());
         } catch(IOException e) {
             System.err.println("io exception while trying to create socket stream");
             System.exit(2);
         }
         
-        String command;
+        String command, msg;
         while (true) {
             try {
                 command = input.readUTF();
-                Parser.parse_exec(command);
-            } catch(InvalidCommandException e) {
-                System.err.println(e.getMessage());
+                msg = Parser.parse_exec(command);
+            } catch(RuntimeException e) {
+                msg = e.getMessage();
             } catch(IOException e) {
                 // clinet wants to quit, no more reading
+                break;
+            }
+
+            System.out.println(msg);
+            // send message to client
+            try {
+                output.writeUTF(msg);
+            } catch (IOException e) {
+                System.out.println("couldn't send message to client. stopped!");
                 break;
             }
         }
